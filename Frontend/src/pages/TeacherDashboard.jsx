@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import { 
   FiCheck, 
@@ -26,7 +26,7 @@ const TeacherDashboard = () => {
 
   const fetchUser = async () => {
     try {
-      const user = await axios.get(`http://localhost:4500/api/dashboard/${id}`, {
+      const user = await api.get(`/api/dashboard/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ const TeacherDashboard = () => {
   const fetchTeacherProjects = async () => {
     try {
       setLoading(true)
-      const projectsDetails = await axios.get('http://localhost:4500/api/teacher/projects', {
+      const projectsDetails = await api.get('/api/teacher/projects', {
         headers: {
           teacherid: `${id}`
         }
@@ -57,7 +57,7 @@ const TeacherDashboard = () => {
   const fetchTeacherApproveProjects = async () => {
     try {
       setLoading(true)
-      const projectsDetails = await axios.get('http://localhost:4500/api/teacher/projects', {
+      const projectsDetails = await api.get('/api/teacher/projects', {
         headers: {
           teacherid: `${id}`
         }
@@ -96,7 +96,7 @@ const TeacherDashboard = () => {
 
   const approved = async (projectId) => {
     try {
-      await axios.patch(`http://localhost:4500/project/approve/${projectId}`)
+      await api.patch(`/project/approve/${projectId}`)
       fetchTeacherProjects()
       fetchTeacherApproveProjects()
     } catch (error) {
@@ -106,7 +106,7 @@ const TeacherDashboard = () => {
 
   const reject = async (projectId) => {
     try {
-      await axios.patch(`http://localhost:4500/project/reject/${projectId}`)
+      await api.patch(`/project/reject/${projectId}`)
       fetchTeacherProjects()
       fetchTeacherApproveProjects()
     } catch (error) {
